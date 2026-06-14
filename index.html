@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jerah May Baniqued — Executive Virtual Assistant</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --navy:  #1B2B4B;
+    --navy2: #243659;
+    --gold:  #C9A84C;
+    --goldl: #E8D08A;
+    --cream: #F8F6F2;
+    --slate: #5C6B82;
+    --ink:   #2C3545;
+    --mist:  #E8ECF2;
+    --white: #FFFFFF;
+  }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Inter', sans-serif; background: var(--cream); color: var(--ink); line-height: 1.6; overflow-x: hidden; }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1rem 5vw;
+    background: rgba(27,43,75,0.97); backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(201,168,76,0.2);
+  }
+  .nav-logo { font-family: 'DM Serif Display', serif; color: var(--white); font-size: 1.1rem; }
+  .nav-logo span { color: var(--gold); }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a { color: rgba(255,255,255,0.7); text-decoration: none; font-size: 0.78rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--gold); }
+
+  /* HERO */
+  #hero {
+    min-height: 100vh;
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy2) 55%, #2E4A72 100%);
+    display: grid; grid-template-columns: 1fr 420px;
+    align-items: center; gap: 4rem;
+    padding: 8rem 5vw 5rem;
+    position: relative; overflow: hidden;
+  }
+  .hero-grid-bg {
+    position: absolute; inset: 0; opacity: 0.04;
+    background-image: linear-gradient(var(--white) 1px, transparent 1px), linear-gradient(90deg, var(--white) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+  .hero-content { position: relative; z-index: 2; }
+  .hero-eyebrow { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); margin-bottom: 1.2rem; }
+  .hero-name { font-family: 'DM Serif Display', serif; font-size: clamp(2.4rem, 5vw, 4.2rem); color: var(--white); line-height: 1.05; margin-bottom: 1rem; }
+  .hero-name em { color: var(--gold); font-style: italic; }
+  .hero-sub { font-size: 1rem; color: rgba(255,255,255,0.6); max-width: 520px; margin-bottom: 2rem; font-weight: 300; line-height: 1.75; }
+  .hero-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 2.5rem; }
+  .tag { border: 1px solid rgba(201,168,76,0.4); color: var(--goldl); font-size: 0.68rem; padding: 0.3rem 0.8rem; letter-spacing: 0.06em; font-weight: 500; text-transform: uppercase; }
+  .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .btn-primary { display: inline-flex; align-items: center; gap: 0.5rem; background: var(--gold); color: var(--navy); font-weight: 600; font-size: 0.82rem; letter-spacing: 0.06em; text-transform: uppercase; padding: 0.8rem 1.8rem; text-decoration: none; transition: background 0.2s, transform 0.2s; }
+  .btn-primary:hover { background: var(--goldl); transform: translateY(-2px); }
+  .btn-outline { display: inline-flex; align-items: center; gap: 0.5rem; border: 1px solid rgba(201,168,76,0.5); color: var(--goldl); font-weight: 500; font-size: 0.82rem; letter-spacing: 0.06em; text-transform: uppercase; padding: 0.8rem 1.8rem; text-decoration: none; transition: all 0.2s; }
+  .btn-outline:hover { border-color: var(--gold); background: rgba(201,168,76,0.08); }
+
+  /* HERO PHOTO */
+  .hero-photo-wrap { position: relative; z-index: 2; display: flex; justify-content: center; }
+  .hero-photo-frame { position: relative; width: 340px; height: 400px; }
+  .hero-photo-frame::before {
+    content: ''; position: absolute; top: -12px; right: -12px;
+    width: 100%; height: 100%;
+    border: 2px solid var(--gold); opacity: 0.4; z-index: 0;
+  }
+  .hero-photo-frame img { width: 100%; height: 100%; object-fit: cover; object-position: top; position: relative; z-index: 1; }
+  .hero-photo-badge {
+    position: absolute; bottom: -16px; left: -16px; z-index: 2;
+    background: var(--gold); color: var(--navy);
+    padding: 0.9rem 1.2rem; text-align: center;
+  }
+  .hero-photo-badge .badge-num { font-family: 'DM Serif Display', serif; font-size: 1.8rem; line-height: 1; }
+  .hero-photo-badge .badge-txt { font-size: 0.62rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; }
+
+  /* STATS */
+  #stats { background: var(--navy); display: grid; grid-template-columns: repeat(4,1fr); border-bottom: 2px solid var(--gold); }
+  .stat-item { padding: 1.8rem 1.2rem; text-align: center; border-right: 1px solid rgba(255,255,255,0.07); }
+  .stat-item:last-child { border-right: none; }
+  .stat-number { font-family: 'DM Serif Display', serif; font-size: 2.2rem; color: var(--gold); line-height: 1; margin-bottom: 0.3rem; }
+  .stat-label { font-size: 0.68rem; color: rgba(255,255,255,0.45); letter-spacing: 0.1em; text-transform: uppercase; font-weight: 500; }
+
+  /* SECTIONS */
+  section { padding: 5.5rem 5vw; }
+  .section-eyebrow { font-size: 0.7rem; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.6rem; }
+  .section-title { font-family: 'DM Serif Display', serif; font-size: clamp(1.7rem, 3vw, 2.6rem); color: var(--navy); line-height: 1.15; margin-bottom: 0.8rem; }
+  .section-line { width: 44px; height: 3px; background: var(--gold); margin-bottom: 2.5rem; }
+
+  /* ABOUT */
+  #about { background: var(--cream); }
+  .about-grid { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 5rem; align-items: start; }
+  .about-body p { color: var(--slate); font-size: 0.95rem; margin-bottom: 1.1rem; font-weight: 300; line-height: 1.8; }
+  .about-body p strong { color: var(--navy); font-weight: 600; }
+  .sidebar-block { background: var(--white); border-left: 3px solid var(--gold); padding: 1.2rem 1.4rem; margin-bottom: 1rem; }
+  .sidebar-block h4 { font-size: 0.67rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); font-weight: 600; margin-bottom: 0.5rem; }
+  .sidebar-block p { font-size: 0.85rem; color: var(--slate); line-height: 1.65; }
+  .sidebar-block a { color: var(--gold); text-decoration: none; }
+  .sidebar-block a:hover { text-decoration: underline; }
+
+  /* SKILLS */
+  #skills { background: var(--white); }
+  .skills-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.3rem; }
+  .skill-card { background: var(--cream); padding: 1.6rem; border-top: 3px solid transparent; transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s; }
+  .skill-card:hover { border-color: var(--gold); transform: translateY(-4px); box-shadow: 0 10px 28px rgba(27,43,75,0.1); }
+  .skill-icon { font-size: 1.5rem; margin-bottom: 0.8rem; }
+  .skill-card h3 { font-family: 'DM Serif Display', serif; font-size: 1rem; color: var(--navy); margin-bottom: 0.7rem; }
+  .skill-tags { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+  .skill-tag { background: var(--mist); color: var(--slate); font-size: 0.67rem; padding: 0.22rem 0.55rem; font-weight: 500; }
+  .tools-row { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 2rem; }
+  .tool-pill { background: var(--navy); color: rgba(255,255,255,0.8); font-size: 0.72rem; padding: 0.4rem 0.9rem; font-weight: 500; letter-spacing: 0.03em; border: 1px solid rgba(201,168,76,0.2); transition: all 0.2s; }
+  .tool-pill:hover { background: var(--navy2); border-color: var(--gold); }
+
+  /* EXPERIENCE */
+  #experience { background: var(--cream); }
+  .timeline { position: relative; padding-left: 2.2rem; }
+  .timeline::before { content: ''; position: absolute; left: 0; top: 8px; bottom: 8px; width: 2px; background: linear-gradient(to bottom, var(--gold), var(--mist)); }
+  .tl-item { position: relative; margin-bottom: 2.8rem; }
+  .tl-dot { position: absolute; left: -2.2rem; top: 7px; width: 13px; height: 13px; border-radius: 50%; background: var(--gold); border: 3px solid var(--cream); box-shadow: 0 0 0 2px var(--gold); }
+  .tl-header { display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 0.25rem; }
+  .tl-role { font-family: 'DM Serif Display', serif; font-size: 1.1rem; color: var(--navy); }
+  .tl-date { font-size: 0.7rem; font-weight: 600; letter-spacing: 0.1em; color: var(--gold); text-transform: uppercase; background: rgba(201,168,76,0.1); padding: 0.18rem 0.55rem; white-space: nowrap; }
+  .tl-company { font-size: 0.85rem; color: var(--slate); margin-bottom: 0.8rem; font-weight: 500; }
+  .tl-company strong { color: var(--navy); font-weight: 600; }
+  .tl-bullets { list-style: none; }
+  .tl-bullets li { font-size: 0.85rem; color: var(--slate); padding: 0.28rem 0 0.28rem 1.1rem; position: relative; line-height: 1.65; }
+  .tl-bullets li::before { content: '▸'; position: absolute; left: 0; color: var(--gold); font-size: 0.6rem; top: 0.44rem; }
+
+  /* EDUCATION */
+  #education { background: var(--white); }
+  .edu-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 1.5rem; }
+  .edu-card { background: var(--cream); padding: 2rem; border-top: 3px solid var(--gold); }
+  .edu-card .edu-year { font-size: 0.68rem; font-weight: 600; letter-spacing: 0.12em; color: var(--gold); text-transform: uppercase; margin-bottom: 0.5rem; }
+  .edu-card h3 { font-family: 'DM Serif Display', serif; font-size: 1.05rem; color: var(--navy); margin-bottom: 0.3rem; }
+  .edu-card p { font-size: 0.83rem; color: var(--slate); line-height: 1.6; }
+
+  /* CONTACT */
+  #contact { background: var(--navy); text-align: center; padding: 5.5rem 5vw; }
+  #contact .section-eyebrow { color: var(--gold); }
+  #contact .section-title { color: var(--white); margin-bottom: 0.8rem; }
+  #contact > p { color: rgba(255,255,255,0.5); max-width: 460px; margin: 0 auto 2.5rem; font-weight: 300; font-size: 0.95rem; }
+  .contact-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1rem; max-width: 760px; margin: 0 auto 2.5rem; }
+  .contact-card { background: rgba(255,255,255,0.05); border: 1px solid rgba(201,168,76,0.2); padding: 1.4rem 1rem; text-decoration: none; transition: all 0.2s; display: flex; flex-direction: column; align-items: center; gap: 0.5rem; }
+  .contact-card:hover { background: rgba(201,168,76,0.08); border-color: var(--gold); }
+  .contact-card .cc-icon { font-size: 1.3rem; }
+  .contact-card .cc-label { font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); font-weight: 600; }
+  .contact-card .cc-val { font-size: 0.82rem; color: rgba(255,255,255,0.75); text-align: center; }
+  .avail-badge { display: inline-block; font-size: 0.75rem; color: var(--gold); border: 1px solid rgba(201,168,76,0.4); padding: 0.5rem 1.4rem; letter-spacing: 0.08em; }
+
+  /* FOOTER */
+  footer { background: #111C2E; padding: 1.2rem 5vw; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem; }
+  footer p { font-size: 0.7rem; color: rgba(255,255,255,0.3); }
+  footer a { color: var(--gold); text-decoration: none; font-size: 0.7rem; }
+
+  /* REVEAL */
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .reveal.visible { opacity: 1; transform: none; }
+
+  /* RESPONSIVE */
+  @media (max-width: 960px) {
+    #hero { grid-template-columns: 1fr; padding-top: 7rem; }
+    .hero-photo-wrap { display: none; }
+    #stats { grid-template-columns: repeat(2,1fr); }
+    .stat-item:nth-child(2) { border-right: none; }
+    .about-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .skills-grid { grid-template-columns: repeat(2,1fr); }
+    .edu-grid { grid-template-columns: 1fr; }
+    .contact-grid { grid-template-columns: 1fr; max-width: 320px; }
+  }
+  @media (max-width: 600px) {
+    .nav-links { display: none; }
+    .skills-grid { grid-template-columns: 1fr; }
+    #stats { grid-template-columns: repeat(2,1fr); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .reveal { opacity: 1; transform: none; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">Jerah May <span>Baniqued</span></div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-grid-bg"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">Executive Virtual Assistant &amp; Operations Professional</p>
+    <h1 class="hero-name">Your operations,<br><em>expertly handled.</em></h1>
+    <p class="hero-sub">7+ years supporting executives, compliance teams, and international real estate operations across the UAE and the Philippines — with precision, discretion, and initiative.</p>
+    <div class="hero-tags">
+      <span class="tag">KYC · CDD · EDD</span>
+      <span class="tag">CRM Management</span>
+      <span class="tag">Client Onboarding</span>
+      <span class="tag">Calendar &amp; Travel</span>
+      <span class="tag">Remote-Ready</span>
+      <span class="tag">Zoho · Teams · Canva</span>
+    </div>
+    <div class="hero-btns">
+      <a href="#contact" class="btn-primary">Work With Me →</a>
+      <a href="https://www.linkedin.com/in/jerah-may-baniqued-1aa265122/" target="_blank" class="btn-outline">LinkedIn Profile ↗</a>
+    </div>
+  </div>
+  <div class="hero-photo-wrap">
+    <div class="hero-photo-frame">
+      <img src="photo.png" alt="Jerah May Baniqued — Executive Virtual Assistant">
+      <div class="hero-photo-badge">
+        <div class="badge-num">7+</div>
+        <div class="badge-txt">Years of<br>Experience</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div id="stats">
+  <div class="stat-item"><div class="stat-number">100+</div><div class="stat-label">Listings Monthly</div></div>
+  <div class="stat-item"><div class="stat-number">15+</div><div class="stat-label">Intl. Agents Supported</div></div>
+  <div class="stat-item"><div class="stat-number">300+</div><div class="stat-label">Staff HR Managed</div></div>
+  <div class="stat-item"><div class="stat-number">6</div><div class="stat-label">Countries Collaborated</div></div>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="reveal">
+    <p class="section-eyebrow">About Me</p>
+    <h2 class="section-title">Detail-driven. Proactive.<br>Internationally experienced.</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="about-grid">
+    <div class="about-body reveal">
+      <p>I'm <strong>Jerah May Baniqued</strong>, a Certified Business Administrator and Executive Virtual Assistant based in Nueva Vizcaya, Philippines — available for remote roles worldwide.</p>
+      <p>My 7+ year career spans <strong>real estate, compliance, financial services, hospitality, and retail operations</strong> across the UAE and Philippines. I've managed everything from KYC/CDD/EDD compliance workflows and Zoho CRM data integrity to DLD/Trakheesi portal administration and HR operations for 300+ staff.</p>
+      <p>Whether you need <strong>executive inbox management, compliance coordination, CRM oversight, calendar management, or cross-functional operations support</strong> — I bring the structure, initiative, and discretion that busy executives depend on.</p>
+      <p>I combine strong administrative fundamentals with practical experience in <strong>AI productivity tools, project management platforms, and international team coordination</strong> — making me immediately effective in remote and hybrid environments.</p>
+    </div>
+    <div class="about-sidebar reveal">
+      <div class="sidebar-block">
+        <h4>Contact</h4>
+        <p>📞 <a href="tel:+639565026350">+63 956 502 6350</a><br>
+        📍 Nueva Vizcaya, Philippines<br>
+        🔗 <a href="https://www.linkedin.com/in/jerah-may-baniqued-1aa265122/" target="_blank">LinkedIn Profile</a></p>
+      </div>
+      <div class="sidebar-block">
+        <h4>Availability</h4>
+        <p>✅ Immediate Start Available<br>Remote · Hybrid · On-Site<br>Full-time · 8 Hours/Day</p>
+      </div>
+      <div class="sidebar-block">
+        <h4>Industries</h4>
+        <p>Real Estate · Financial Services<br>KYC/Compliance · Hospitality<br>Retail Operations · Credit Finance</p>
+      </div>
+      <div class="sidebar-block">
+        <h4>Languages</h4>
+        <p>English — Professional Fluency<br>Filipino — Native</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="reveal">
+    <p class="section-eyebrow">Expertise</p>
+    <h2 class="section-title">What I bring to your team</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="skills-grid">
+    <div class="skill-card reveal">
+      <div class="skill-icon">🗂️</div>
+      <h3>Executive &amp; Admin Support</h3>
+      <div class="skill-tags">
+        <span class="skill-tag">Calendar Management</span><span class="skill-tag">Email Management</span>
+        <span class="skill-tag">Travel Coordination</span><span class="skill-tag">Executive Reporting</span>
+        <span class="skill-tag">Meeting Facilitation</span><span class="skill-tag">Correspondence</span>
+      </div>
+    </div>
+    <div class="skill-card reveal">
+      <div class="skill-icon">✅</div>
+      <h3>Compliance &amp; KYC</h3>
+      <div class="skill-tags">
+        <span class="skill-tag">KYC Processing</span><span class="skill-tag">CDD / EDD</span>
+        <span class="skill-tag">Client Onboarding</span><span class="skill-tag">Audit Support</span>
+        <span class="skill-tag">SOP Development</span><span class="skill-tag">SLA Monitoring</span>
+      </div>
+    </div>
+    <div class="skill-card reveal">
+      <div class="skill-icon">📊</div>
+      <h3>CRM &amp; Data Management</h3>
+      <div class="skill-tags">
+        <span class="skill-tag">Zoho CRM</span><span class="skill-tag">Salesforce</span>
+        <span class="skill-tag">HubSpot</span><span class="skill-tag">Data Accuracy</span>
+        <span class="skill-tag">Reporting</span><span class="skill-tag">Pipeline Tracking</span>
+      </div>
+    </div>
+    <div class="skill-card reveal">
+      <div class="skill-icon">🏗️</div>
+      <h3>Operations &amp; Coordination</h3>
+      <div class="skill-tags">
+        <span class="skill-tag">Workflow Optimization</span><span class="skill-tag">Process Improvement</span>
+        <span class="skill-tag">Cross-team Coordination</span><span class="skill-tag">Vendor Liaison</span>
+        <span class="skill-tag">Portal Administration</span><span class="skill-tag">Inventory Management</span>
+      </div>
+    </div>
+    <div class="skill-card reveal">
+      <div class="skill-icon">🤝</div>
+      <h3>Client &amp; Stakeholder Relations</h3>
+      <div class="skill-tags">
+        <span class="skill-tag">Client Communication</span><span class="skill-tag">Escalation Handling</span>
+        <span class="skill-tag">Stakeholder Updates</span><span class="skill-tag">Channel Partner Support</span>
+        <span class="skill-tag">Refund Processing</span><span class="skill-tag">Customer Service</span>
+      </div>
+    </div>
+    <div class="skill-card reveal">
+      <div class="skill-icon">🏠</div>
+      <h3>Real Estate Operations</h3>
+      <div class="skill-tags">
+        <span class="skill-tag">DLD Portals</span><span class="skill-tag">Trakheesi</span>
+        <span class="skill-tag">Property Finder</span><span class="skill-tag">RERA Compliance</span>
+        <span class="skill-tag">Listing Management</span><span class="skill-tag">Contract Admin</span>
+      </div>
+    </div>
+  </div>
+  <div class="reveal" style="margin-top:2.5rem;">
+    <p class="section-eyebrow" style="margin-bottom:0.5rem;">Tools &amp; Technology</p>
+    <div class="tools-row">
+      <span class="tool-pill">Microsoft Office Suite</span><span class="tool-pill">Google Workspace</span>
+      <span class="tool-pill">Zoho CRM</span><span class="tool-pill">Microsoft Teams</span>
+      <span class="tool-pill">Canva</span><span class="tool-pill">Slack</span><span class="tool-pill">Zoom</span>
+      <span class="tool-pill">Notion</span><span class="tool-pill">Asana</span><span class="tool-pill">ClickUp</span>
+      <span class="tool-pill">Trello</span><span class="tool-pill">HubSpot</span><span class="tool-pill">Salesforce</span>
+      <span class="tool-pill">Oracle OPERA 5</span><span class="tool-pill">Infor SunSystem</span>
+      <span class="tool-pill">Property Finder</span><span class="tool-pill">DLD / Trakheesi</span>
+      <span class="tool-pill">Persis HR</span><span class="tool-pill">ChatGPT</span><span class="tool-pill">Claude AI</span>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="reveal">
+    <p class="section-eyebrow">Career Journey</p>
+    <h2 class="section-title">Experience across four countries,<br>six industries.</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="timeline">
+
+    <div class="tl-item reveal">
+      <div class="tl-dot"></div>
+      <div class="tl-header">
+        <div class="tl-role">Channel Partner Coordinator</div>
+        <div class="tl-date">Jul 2025 – Apr 2026</div>
+      </div>
+      <div class="tl-company"><strong>Dubai South Business Hub Management Services</strong> · Dubai, UAE</div>
+      <ul class="tl-bullets">
+        <li>Orchestrated end-to-end client onboarding for business registration applications, coordinating between Compliance and Client Servicing teams to meet all KYC, CDD, and EDD requirements on time and to regulatory standards.</li>
+        <li>Maintained Zoho CRM with 100% accuracy — tracking deals, verifying GP updates, resolving discrepancies, and delivering real-time visibility on application progress for leadership.</li>
+        <li>Supported 5 Channel Partner Advisors by monitoring client file statuses, flagging escalations, and ensuring resolution within internal SLAs.</li>
+        <li>Facilitated KYC video verification sessions via Microsoft Teams, troubleshooting technical issues and guiding clients through regulatory requirements.</li>
+        <li>Submitted structured improvement recommendations that contributed to enhanced SOP documentation and FAQ updates.</li>
+      </ul>
+    </div>
+
+    <div class="tl-item reveal">
+      <div class="tl-dot"></div>
+      <div class="tl-header">
+        <div class="tl-role">Administrative Officer</div>
+        <div class="tl-date">Mar 2024 – Jul 2025</div>
+      </div>
+      <div class="tl-company"><strong>Cielo Properties LLC</strong> · Dubai, UAE</div>
+      <ul class="tl-bullets">
+        <li>Managed 100+ active property listings monthly on Property Finder and internal CRM platforms, ensuring listing accuracy and compliance with advertising regulations.</li>
+        <li>Supported 15+ international agents across UAE, Pakistan, USA, Canada, Monaco, Poland, and Spain — coordinating across time zones to deliver seamless operations.</li>
+        <li>Administered DLD and Trakheesi portals — processing Contracts, NOCs, MOUs, Tenancy Contracts, and electronic advertising permits.</li>
+        <li>Coordinated RERA card renewals and new agent issuances, tracking all deadlines to ensure full regulatory compliance.</li>
+        <li>Produced marketing collateral and social media content using Canva; generated and assigned CRM leads to optimize agent workload distribution.</li>
+      </ul>
+    </div>
+
+    <div class="tl-item reveal">
+      <div class="tl-dot"></div>
+      <div class="tl-header">
+        <div class="tl-role">HR Assistant</div>
+        <div class="tl-date">Feb 2023 – Mar 2024</div>
+      </div>
+      <div class="tl-company"><strong>Al Ansari Financial Services</strong> · Dubai, UAE</div>
+      <ul class="tl-bullets">
+        <li>Managed end-to-end visa and labor processing for all staff, ensuring zero lapses in documentation or deadline compliance with UAE labor regulations.</li>
+        <li>Administered HR service requests for 300+ staff — uniforms, accommodation, visa documentation, and general employee needs.</li>
+        <li>Coordinated pre-employment profiling, background checks, offer letters, medical appointments, and National ID registration for new joiners.</li>
+        <li>Maintained accurate daily and monthly HR reports, ensuring on-time submission to leadership for operational review.</li>
+      </ul>
+    </div>
+
+    <div class="tl-item reveal">
+      <div class="tl-dot"></div>
+      <div class="tl-header">
+        <div class="tl-role">General Cashier &amp; Accounts Receivable Clerk</div>
+        <div class="tl-date">Oct 2021 – Jan 2023</div>
+      </div>
+      <div class="tl-company"><strong>Pullman Hotel Sharjah</strong> · Sharjah, UAE</div>
+      <ul class="tl-bullets">
+        <li>Managed daily cash reconciliation and general cashier operations — verifying and depositing all remittances with full accuracy and zero discrepancy across hotel departments.</li>
+        <li>Administered foreign exchange operations, submitting daily rate reports to the Financial Controller for accurate multi-currency billing.</li>
+        <li>Prepared corporate invoices and organized group/convention billing; maintained city ledger postings and advance deposit reconciliation.</li>
+      </ul>
+    </div>
+
+    <div class="tl-item reveal">
+      <div class="tl-dot"></div>
+      <div class="tl-header">
+        <div class="tl-role">Business Cycle Clerk &amp; HR Support</div>
+        <div class="tl-date">Jul 2018 – Sept 2021</div>
+      </div>
+      <div class="tl-company"><strong>Majid Al Futtaim (Carrefour)</strong> · UAE</div>
+      <ul class="tl-bullets">
+        <li>Managed end-to-end store ordering for 2,000+ SKUs per cycle including leaflet and promotional items — ensuring zero stockouts and on-time supplier delivery.</li>
+        <li>Generated daily business-cycle indicator reports for the Commercial team; developed monthly KPI reports with corrective action recommendations.</li>
+        <li>Provided HR administrative support for 300+ staff, managing uniforms, accommodation, visa documentation, and general employee requests.</li>
+      </ul>
+    </div>
+
+    <div class="tl-item reveal">
+      <div class="tl-dot"></div>
+      <div class="tl-header">
+        <div class="tl-role">Quality Assurance Analyst</div>
+        <div class="tl-date">Jan 2017 – Apr 2018</div>
+      </div>
+      <div class="tl-company"><strong>Credit Access Philippines Financing Co.</strong> · Philippines</div>
+      <ul class="tl-bullets">
+        <li>Verified loan application data against submitted documentation, ensuring full compliance with credit policies across all branch submissions.</li>
+        <li>Coordinated administrative and compliance monitoring reports from branch offices in support of the QA Supervisor and Manager.</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education">
+  <div class="reveal">
+    <p class="section-eyebrow">Education &amp; Certifications</p>
+    <h2 class="section-title">Academic &amp; Professional Credentials</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="edu-grid">
+    <div class="edu-card reveal">
+      <div class="edu-year">Graduated April 2016</div>
+      <h3>Bachelor of Science in Business Administration</h3>
+      <p>Nueva Vizcaya State University<br>Philippines</p>
+    </div>
+    <div class="edu-card reveal">
+      <div class="edu-year">Certified November 2021</div>
+      <h3>Certified Business Administrator (CBA)</h3>
+      <p>American Institute of Business &amp; Management<br>Professional Certification — Business Administration</p>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <p class="section-eyebrow reveal">Get In Touch</p>
+  <h2 class="section-title reveal">Let's work together.</h2>
+  <p class="reveal">Looking for a reliable, proactive executive assistant or operations coordinator? I'm available for remote roles globally and ready to add immediate value to your team.</p>
+  <div class="contact-grid reveal">
+    <a href="tel:+639565026350" class="contact-card">
+      <div class="cc-icon">📞</div>
+      <div class="cc-label">Phone</div>
+      <div class="cc-val">+63 956 502 6350</div>
+    </a>
+    <a href="https://www.linkedin.com/in/jerah-may-baniqued-1aa265122/" target="_blank" class="contact-card">
+      <div class="cc-icon">💼</div>
+      <div class="cc-label">LinkedIn</div>
+      <div class="cc-val">jerah-may-baniqued</div>
+    </a>
+    <div class="contact-card">
+      <div class="cc-icon">📍</div>
+      <div class="cc-label">Location</div>
+      <div class="cc-val">Nueva Vizcaya, Philippines</div>
+    </div>
+  </div>
+  <div class="avail-badge reveal">✦ Open to Opportunities · Immediate Start · Salary Negotiable</div>
+</section>
+
+<footer>
+  <p>© 2026 Jerah May Baniqued · All rights reserved.</p>
+  <a href="https://www.linkedin.com/in/jerah-may-baniqued-1aa265122/" target="_blank">LinkedIn →</a>
+</footer>
+
+<script>
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 80);
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+</body>
+</html>
